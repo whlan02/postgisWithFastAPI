@@ -1,0 +1,36 @@
+# One-shot: docker compose up -d
+# Then: GET http://localhost:8000/health and GET http://localhost:8000/corridors
+
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: uavdb
+      POSTGRES_USER: uavuser
+      POSTGRES_PASSWORD: uavpass
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+      - ./postgis/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uavuser -d uavdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  fastapi:
+    build: ./fastapi
+    environment:
+      DATABASE_URL: postgresql://uavuser:uavpass@postgis:5432/uavdb
+      GEOJSON_PATH: /data/safe_corridors_prioritized.geojson
+    volumes:
+      - ./safe_corridors_prioritized.geojson:/data/safe_corridors_prioritized.geojson:ro
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+volumes:
+  postgis_data:

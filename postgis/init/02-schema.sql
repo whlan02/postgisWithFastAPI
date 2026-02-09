@@ -1,0 +1,71 @@
+-- safe_corridors: original CRS EPSG:3414
+CREATE TABLE IF NOT EXISTS safe_corridors (
+  id SERIAL PRIMARY KEY,
+  "OBJECTID" integer,
+  "PLN_AREA_N" text,
+  "PLN_AREA_C" text,
+  "CA_IND" text,
+  "REGION_N" text,
+  "REGION_C" text,
+  "INC_CRC" text,
+  "FMEL_UPD_D" text,
+  "SHAPE.AREA" double precision,
+  "SHAPE.LEN" double precision,
+  "Total_Population" double precision,
+  "Total_Males" double precision,
+  "Total_Females" double precision,
+  "LabourForce_Total_Total" double precision,
+  "LabourForce_Total_Males" double precision,
+  "LabourForce_Total_Females" double precision,
+  "LabourForce_Employed_Total" double precision,
+  "LabourForce_Employed_Males" double precision,
+  "LabourForce_Employed_Females" double precision,
+  "LabourForce_Unemployed_Total" double precision,
+  "LabourForce_Unemployed_Males" double precision,
+  "LabourForce_Unemployed_Females" double precision,
+  "OutsidetheLabourForce_Total" double precision,
+  "OutsidetheLabourForce_Males" double precision,
+  "OutsidetheLabourForce_Females" double precision,
+  "Area_km2" double precision,
+  "Pop_Density" double precision,
+  "priorityID" integer,
+  geom geometry(MultiPolygon, 3414)
+);
+
+CREATE INDEX IF NOT EXISTS idx_safe_corridors_geom ON safe_corridors USING GIST (geom);
+
+-- safe_corridors_4326: transformed to EPSG:4326 for API/frontend
+CREATE TABLE IF NOT EXISTS safe_corridors_4326 (
+  id SERIAL PRIMARY KEY,
+  "OBJECTID" integer,
+  "PLN_AREA_N" text,
+  "PLN_AREA_C" text,
+  "CA_IND" text,
+  "REGION_N" text,
+  "REGION_C" text,
+  "INC_CRC" text,
+  "FMEL_UPD_D" text,
+  "SHAPE.AREA" double precision,
+  "SHAPE.LEN" double precision,
+  "Total_Population" double precision,
+  "Total_Males" double precision,
+  "Total_Females" double precision,
+  "LabourForce_Total_Total" double precision,
+  "LabourForce_Total_Males" double precision,
+  "LabourForce_Total_Females" double precision,
+  "LabourForce_Employed_Total" double precision,
+  "LabourForce_Employed_Males" double precision,
+  "LabourForce_Employed_Females" double precision,
+  "LabourForce_Unemployed_Total" double precision,
+  "LabourForce_Unemployed_Males" double precision,
+  "LabourForce_Unemployed_Females" double precision,
+  "OutsidetheLabourForce_Total" double precision,
+  "OutsidetheLabourForce_Males" double precision,
+  "OutsidetheLabourForce_Females" double precision,
+  "Area_km2" double precision,
+  "Pop_Density" double precision,
+  "priorityID" integer,
+  geom geometry(MultiPolygon, 4326)
+);
+
+CREATE INDEX IF NOT EXISTS idx_safe_corridors_4326_geom ON safe_corridors_4326 USING GIST (geom);
