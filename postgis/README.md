@@ -25,8 +25,8 @@ This directory holds the **PostGIS** service used by the Corridors API.
 
 - `01-extension.sql` – enables the PostGIS extension.
 - `02-schema.sql` – creates tables and indexes:
-  - **safe_corridors**: original geometries in **EPSG:3414** (Singapore).
-  - **safe_corridors_4326**: same data with geometries in **EPSG:4326** (WGS84) for the API and frontend.
+  - **corridors_2d** / **corridors_2d_4326**: 2D safe corridors (EPSG:3414 and EPSG:4326).
+  - **network_3d** / **network_3d_4326**: 3D merged network (EPSG:3414 and EPSG:4326).
 
 Data is loaded into these tables by the **FastAPI** service on first startup (see `fastapi/README.md`).
 

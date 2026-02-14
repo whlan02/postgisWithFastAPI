@@ -1,5 +1,5 @@
-# One-shot: docker compose up -d
-# Then: GET http://localhost:8000/health and GET http://localhost:8000/corridors
+# docker compose up -d --build
+# Then: GET /health, GET /2d-corridors, GET /3d-network, GET /3dtiles/tileset.json
 
 services:
   postgis:
@@ -23,9 +23,13 @@ services:
     build: ./fastapi
     environment:
       DATABASE_URL: postgresql://uavuser:uavpass@postgis:5432/uavdb
-      GEOJSON_PATH: /data/safe_corridors_prioritized.geojson
+      GEOJSON_2D_PATH: /data/2D_safe_corridors_prioritized.geojson
+      GEOJSON_3D_PATH: /data/3D_merged_network.geojson
+      TILES_DIR: /data/tiles
     volumes:
-      - ./safe_corridors_prioritized.geojson:/data/safe_corridors_prioritized.geojson:ro
+      - ./2D_safe_corridors_prioritized.geojson:/data/2D_safe_corridors_prioritized.geojson:ro
+      - ./3D_merged_network.geojson:/data/3D_merged_network.geojson:ro
+      - ./tiles:/data/tiles:ro
     ports:
       - "8000:8000"
     depends_on:
