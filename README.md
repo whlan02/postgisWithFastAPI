@@ -2,33 +2,24 @@
 
 Backend for serving **2D safe corridors** (GeoJSON), **3D merged network** (GeoJSON), and **3D Tiles** from PostGIS and static files via a minimal FastAPI API. Two containers: **PostGIS** and **FastAPI**. Data is imported automatically on first run.
 
+## Frontend client
+
+This project is the **backend** for **[Urban-UAV-Corridors_client](https://github.com/whlan02/Urban-UAV-Corridors_client)** (Vite + Cesium). The client expects the API at `**http://localhost:8000`** by default. Start this Docker stack first, then clone and run the client as described in [that repository’s README](https://github.com/whlan02/Urban-UAV-Corridors_client#readme).
+
 ## Quick start
 
 1. Ensure [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) are installed.
-
 2. Open Docker Desktop.
-
 3. In this directory (`postgisWithFastAPI`), run:
-
-   **First time:**
-   ```bash
-   docker compose up -d --build
-   ```
-
+  **First time:**
    **If you already ran the old version on your pc** (single corridor layer), replace it with the new setup:
-   ```bash
-   docker compose down -v
-   docker compose up -d --build
-   ```
    (`down -v` removes the database volume so the new schema and data are loaded from scratch.)
-
 4. Wait for PostGIS to be ready and FastAPI to run the first-time import.
-
 5. Check the endpoints:
-   - `curl http://localhost:8000/health`
-   - `curl http://localhost:8000/2d-corridors`
-   - `curl http://localhost:8000/3d-network`
-   - 3D Tiles: `http://localhost:8000/3dtiles/tileset.json` (use in Cesium as the tileset base URL).
+  - `curl http://localhost:8000/health`
+  - `curl http://localhost:8000/2d-corridors`
+  - `curl http://localhost:8000/3d-network`
+  - 3D Tiles: `http://localhost:8000/3dtiles/tileset.json` (use in Cesium as the tileset base URL).
 
 ## Layout
 
@@ -43,3 +34,4 @@ Backend for serving **2D safe corridors** (GeoJSON), **3D merged network** (GeoJ
 
 - [postgis/README.md](postgis/README.md) – How the PostGIS container and init scripts work.
 - [fastapi/README.md](fastapi/README.md) – How to run the API and use the four endpoints.
+
